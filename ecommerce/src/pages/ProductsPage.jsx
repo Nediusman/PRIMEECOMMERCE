@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import ProductCard from "../components/ProductCard";
 import SearchBar from "../components/SearchBar";
 import CategoryFilter from "../components/CategoryFilter";
@@ -66,10 +66,57 @@ const products = [
 { id: 46, name: "Mini Bag", price: 55, image: "https://images.unsplash.com/photo-1591561954557-26941169b49e?auto=format&fit=crop&w=400&q=80", category: "Bags" },
 { id: 47, name: "Leather Bag", price: 200, image: "https://images.unsplash.com/photo-1593032465171-8f0b4b7f0e5d?auto=format&fit=crop&w=400&q=80", category: "Bags" },
 { id: 48, name: "Fashion Bag", price: 150, image: "https://images.unsplash.com/photo-1585386959984-a4155224a1ad?auto=format&fit=crop&w=400&q=80", category: "Bags" },
+
+// BOOKS (3)
+{ id: 49, name: "Novel Book", price: 20, image: "https://images.unsplash.com/photo-1512820790803-83ca734da794?w=400", category: "Books" },
+{ id: 50, name: "Study Book", price: 35, image: "https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?w=400", category: "Books" },
+{ id: 51, name: "Notebook", price: 15, image: "https://images.unsplash.com/photo-1532012197267-da84d127e765?w=400", category: "Books" },
+
+// VIDEO GAMES (3)
+{ id: 52, name: "Gaming Controller", price: 80, image: "https://images.unsplash.com/photo-1605902711622-cfb43c44367f?w=400", category: "Video Games" },
+{ id: 53, name: "Gaming Console", price: 400, image: "https://images.unsplash.com/photo-1598550476439-6847785fcea6?w=400", category: "Video Games" },
+{ id: 54, name: "VR Headset", price: 350, image: "https://images.unsplash.com/photo-1622979135225-d2ba269cf1ac?w=400", category: "Video Games" },
+
+// MUSICAL INSTRUMENTS (3)
+{ id: 55, name: "Guitar", price: 150, image: "https://images.unsplash.com/photo-1510915361894-db8b60106cb1?w=400", category: "Musical Instruments" },
+{ id: 56, name: "Piano", price: 500, image: "https://images.unsplash.com/photo-1513883049090-d0b7439799bf?w=400", category: "Musical Instruments" },
+{ id: 57, name: "Drum", price: 200, image: "https://images.unsplash.com/photo-1519892300165-cb5542fb47c7?w=400", category: "Musical Instruments" },
+
+// FURNITURE (3)
+{ id: 58, name: "Sofa", price: 600, image: "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=400", category: "Furniture" },
+{ id: 59, name: "Chair", price: 120, image: "https://images.unsplash.com/photo-1503602642458-232111445657?w=400", category: "Furniture" },
+{ id: 60, name: "Table", price: 250, image: "https://images.unsplash.com/photo-1493666438817-866a91353ca9?w=400", category: "Furniture" },
+
+// SPORT & OUTDOORS (3)
+{ id: 61, name: "Basketball", price: 40, image: "https://images.unsplash.com/photo-1519861531473-9200262188bf?w=400", category: "Sport & Outdoors" },
+{ id: 62, name: "Camping Tent", price: 180, image: "https://images.unsplash.com/photo-1504280390368-3971c0cdbfdf?w=400", category: "Sport & Outdoors" },
+{ id: 63, name: "Dumbbells", price: 90, image: "https://images.unsplash.com/photo-1599058917212-d750089bc07e?w=400", category: "Sport & Outdoors" },
+
+// KITCHEN (3)
+{ id: 64, name: "Cooking Pot", price: 50, image: "https://images.unsplash.com/photo-1584990347449-6f2b64d1c7c4?w=400", category: "Kitchen" },
+{ id: 65, name: "Blender", price: 70, image: "https://images.unsplash.com/photo-1571601035754-5c927f2d7edc?w=400", category: "Kitchen" },
+{ id: 66, name: "Toaster", price: 45, image: "https://images.unsplash.com/photo-1585238342024-78d387f4a707?w=400", category: "Kitchen" },
 ];
 
 // duplicate products
 const allProducts = products;
+const banners = [
+  {
+    image: "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=1200",
+    title: "Gaming Store",
+    subtitle: "Upgrade your gaming gear",
+  },
+  {
+    image: "https://images.unsplash.com/photo-1586201375761-83865001e31c?w=1200",
+    title: "Kitchen Essentials",
+    subtitle: "Everything under $50",
+  },
+  {
+    image: "https://images.unsplash.com/photo-1519710164239-da123dc03ef4?w=1200",
+    title: "Toys for Kids",
+    subtitle: "Fun for everyone",
+  },
+];
 
 const ProductsPage = () => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -77,7 +124,16 @@ const ProductsPage = () => {
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [sortOption, setSortOption] = useState("default");
   const [wishlist, setWishlist] = useState([]);
+  const [currentBanner, setCurrentBanner] = useState(0);
   const productsPerPage = 8;
+
+  useEffect(() => {
+  const interval = setInterval(() => {
+    setCurrentBanner((prev) => (prev + 1) % banners.length);
+  }, 3000); // change every 3 seconds
+
+  return () => clearInterval(interval);
+}, []);
 
   const indexOfLast = currentPage * productsPerPage;
   const indexOfFirst = indexOfLast - productsPerPage;
@@ -125,6 +181,12 @@ const totalPages = Math.ceil(sortedProducts.length / productsPerPage);
   "Accessories",
   "Watches",
   "Bags",
+  "Books",
+  "Video Games",
+  "Musical Instruments",
+  "Furniture",
+  "Sport & Outdoors",
+  "Kitchen",
 ];
 
   return (
@@ -134,18 +196,24 @@ const totalPages = Math.ceil(sortedProducts.length / productsPerPage);
     <h1 className="text-2xl font-bold mb-6">Products</h1>
 
     {/* BANNER */}
-    <div className="bg-gradient-to-r from-gray-100 to-gray-200 rounded-2xl p-6 flex items-center justify-between mb-8">
-      <div>
-        <h2 className="text-2xl font-bold mb-2">
-          Grab Up to 50% Off
-        </h2>
-        <p className="text-gray-600 mb-4">
-          On selected headphones
-        </p>
-        <button className="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-full shadow-md transition">
-          Shop Now
-        </button>
-      </div>
+    <div className="relative rounded-2xl overflow-hidden mb-8">
+      <img
+  src={banners[currentBanner].image}
+  className="w-full h-64 object-cover"
+/>
+
+  <div className="absolute inset-0 bg-black/40 flex flex-col justify-center px-8 text-white">
+    <h2 className="text-3xl font-bold">
+      {banners[currentBanner].title}
+    </h2>
+    <p className="mb-3">
+      {banners[currentBanner].subtitle}
+    </p>
+    <button className="bg-white text-black px-4 py-2 rounded-full w-fit">
+      Shop Now
+    </button>
+  </div>
+
 
       <img
         src="https://images.unsplash.com/photo-1518441902117-59b3b4c5c5c5?auto=format&fit=crop&w=400&q=80"
