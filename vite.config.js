@@ -1,10 +1,9 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 
-// For GitHub Pages: set base to '/PRIMEECOMMERCE/' (repo name)
+// For Vercel deployment - no base path needed
 export default defineConfig({
   plugins: [react()],
-  base: '/PRIMEECOMMERCE/',
   build: {
     chunkSizeWarningLimit: 1000,
   },
