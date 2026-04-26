@@ -1,10 +1,10 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 
-// For GitHub Pages: set base to '/Frontend/' (repo name)
+// For GitHub Pages: set base to '/PRIMEECOMMERCE/' (repo name)
 export default defineConfig({
   plugins: [react()],
-  base: '/Frontend/',
+  base: '/PRIMEECOMMERCE/',
   build: {
     chunkSizeWarningLimit: 1000,
   },
